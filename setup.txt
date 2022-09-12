@@ -1,0 +1,10 @@
+this will allow for running files.ipynb
+
+
+
+pip install --upgrade pip
+
+# Install the kernel
+
+ipython kernel install --user --name=venv
+
