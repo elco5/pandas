@@ -53,8 +53,11 @@ wt_micro_sample = "C:\\Users\\count\\dev\\pandas\\data\\PA_micro.csv"
 f = wt_full_sample
 
 wt = Wt_Importer(f)
-print(wt.df)
+# print(wt.df)
 
+
+
+# print(pandas.read_csv(filename).to_markdown(index=False))
 # print(wt.df_raw.iloc[0:5,:])
 # print(wt.find_column_name_index())
 # print(wt.df)
