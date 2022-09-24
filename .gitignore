@@ -1,6 +1,6 @@
 # my data files
 waveforms/
-
+*.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

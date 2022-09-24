@@ -1,31 +1,44 @@
 import pandas as pd
 import numpy as np
-import typing
-import string
+
+
 
 class Wt_Importer:
+    '''
+    clean wt3000 csv output file: 
+    - remove bloat at top 
+    - index (row names) with observation numbers 
+    - use measured quantity names as column names
+    '''
 
-    def __init__(self,path_to_csv: str) -> None:
+    def __init__(self, path_to_csv:str) -> None:
+        self.path_to_csv = path_to_csv
         self.df = None
-        self.df_raw = pd.read_csv(path_to_csv)
+        self.df_raw = None
         self.column_name_index = None
         self.column_names = [""]
+        self.load(self.path_to_csv)
+        self.process()
+
+    def load(self, path_to_csv: str) -> None:
+        self.df_raw = pd.read_csv(path_to_csv)
+
+    def process(self) -> None:
         self.apply_column_names()
         self.apply_index()
         self.trim_dataframe()
-        
 
     def find_column_name_index(self) -> int:
-    # search the first column of the data to find the row that contains the column names.
-    # Column names are the physical quantities measured like voltage and current
+        # search the first column of the data to find the row that contains the column names.
+        # Column names are the physical quantities measured like voltage and current
         search_term = "Store No."
-        for index, entry in enumerate(self.df_raw.iloc[:,0]):
+        for index, entry in enumerate(self.df_raw.iloc[:, 0]):
             if entry == search_term:
-                return index        
+                return index
 
     def get_column_names(self, index: int) -> np.ndarray:
         # return an array of strings to be used as column headers
-        self.column_names = self.df_raw.iloc[index,:].to_numpy(dtype=str) 
+        self.column_names = self.df_raw.iloc[index, :].to_numpy(dtype=str)
         return self.column_names
 
     def apply_column_names(self):
@@ -36,24 +49,15 @@ class Wt_Importer:
         return
 
     def apply_index(self):
-        self.df_raw.index = self.df_raw.iloc[:,0].to_numpy() #use Store Numbers as index
+        # use Store Numbers as index
+        self.df_raw.index = self.df_raw.iloc[:, 0].to_numpy()
         return
-    
+
     def trim_dataframe(self):
         # trim the top of the data frame - leaving only the data below the column names row
         self.df = self.df_raw.iloc[self.column_name_index + 1:, :]
 
 
-
-
-############# DRIVER #################
-wt_full_sample = 'C:\\Users\\count\\dev\\pandas\\data\\PA_sample_data.csv'
-wt_short_sample = 'C:\\Users\\count\\dev\\pandas\\data\\PA_sample_data_short.csv'
-wt_micro_sample = "C:\\Users\\count\\dev\\pandas\\data\\PA_micro.csv"
-f = wt_full_sample
-
-wt = Wt_Importer(f)
-# print(wt.df)
 
 
 
