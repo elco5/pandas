@@ -18,7 +18,7 @@ class Plotly_Plotter:
         self.xvals = None
         self.yvals = None
 
-    def plot(self, xvals: np.ndarray, yvals:np.ndarray):
+    def plot(self, yvals: np.ndarray, xvals:np.ndarray):
         self.xvals = xvals
         self.yvals = yvals
         
