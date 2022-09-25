@@ -1,3 +1,4 @@
+import re
 import matplotlib.pyplot as plt
 import numpy as np
 # every_Nth_sample = 10
@@ -33,3 +34,21 @@ def get_midpoints(a:np.ndarray):
     M = (a[1:] + a[:-1])/2
     K = M.astype(int)
     return K
+
+def get_step_values( ts, change_locs, window_percent=0.5 ):
+
+    step_lengths = np.diff(change_locs)
+    window_widths = (step_lengths*window_percent).astype(int)
+
+    _step_values = np.zeros(len(change_locs) - 1)
+    for i, start in enumerate(window_widths):
+        _step_values[i] = np.mean(
+            ts[change_locs[i+1]-window_widths[i]])
+    
+    return _step_values
+
+def get_change_points(vs, threshold = 1):
+    vdif = np.abs(np.diff(vs, append=vs[0] ))
+    vbin = vdif > threshold
+    change_points = np.where(vbin=True)[0]
+
