@@ -27,6 +27,8 @@ class Wt_Importer:
         self.apply_column_names()
         self.apply_index()
         self.trim_dataframe()
+        self.make_numeric()
+        self.df = self.df_raw
 
     def find_column_name_index(self) -> int:
         # search the first column of the data to find the row that contains the column names.
@@ -55,7 +57,13 @@ class Wt_Importer:
 
     def trim_dataframe(self):
         # trim the top of the data frame - leaving only the data below the column names row
-        self.df = self.df_raw.iloc[self.column_name_index + 1:, :]
+        self.df_raw = self.df_raw.iloc[self.column_name_index + 1:, :]
+    
+    def make_numeric(self):
+        for column in self.df_raw.columns:
+            if column  not in ['Date', 'Time']:
+                self.df_raw[column] =  pd.to_numeric(self.df_raw[column], errors='coerce')
+        
 
 
 

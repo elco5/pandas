@@ -53,7 +53,7 @@ def get_step_values( ts, change_points, window_percent=0.4 ):
 
     return _idxs.astype(int), _step_values.astype(int)
 
-def get_change_points(vs, threshold = 1):
+def get_change_points(vs, threshold = 100):
     vdif = np.abs(np.diff(vs, append=vs[0] ))
     vbin = vdif > threshold
     change_points = np.where(vbin==True)[0]
