@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "\\\\teslamotors.com\\US\\Engineering\\Stationary_Storage\\ECountrywood\\PW3"
+		},
+		{
+			"path": "\\\\teslamotors.com\\US\\Engineering\\Stationary_Storage\\ECountrywood\\PVI"
 		}
 	]
 }

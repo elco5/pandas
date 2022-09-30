@@ -24,7 +24,10 @@ class Wt_Importer:
         self.df_raw = pd.read_csv(path_to_csv)
 
     def process(self) -> None:
+        
         self.apply_column_names()
+        self.drop_duplicate_columns()
+        # self.drop_na_columns()
         self.apply_index()
         self.trim_dataframe()
         self.make_numeric()
@@ -58,13 +61,18 @@ class Wt_Importer:
     def trim_dataframe(self):
         # trim the top of the data frame - leaving only the data below the column names row
         self.df_raw = self.df_raw.iloc[self.column_name_index + 1:, :]
+        
     
     def make_numeric(self):
         for column in self.df_raw.columns:
             if column  not in ['Date', 'Time']:
                 self.df_raw[column] =  pd.to_numeric(self.df_raw[column], errors='coerce')
         
-
+    def drop_duplicate_columns(self):
+        self.df_raw = self.df_raw.loc[:,~self.df_raw.columns.duplicated()].copy()
+    
+    def drop_na_columns(self):
+        self.df_raw = self.df_raw.dropna(axis='columns', how='all' ).copy()
 
 
 
